@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="">
+  <process id="hierarchical-model" name=" Hierarchical Model" isExecutable="true">
+    <startEvent id="hierarchical-model-Start"/>
+    <subProcess id="I1" name="Select-host-and-product">
+      <startEvent id="I1-Start"/>
+      <subProcess id="I1-S1" name="Obtain-relevant-data-for-product">
+        <startEvent id="I1-S1-Start"/>
+        <userTask id="I1-S1-A1" name="Obtain-physicochemical-data--Toxicity--Solubility--InChI----for-product" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S1-Start" targetRef="I1-S1-A1" id="I1-S1-Start-to-I1-S1-A1"/>
+        <userTask id="I1-S1-A2" name="Estimate-product-toxicity-for-chassis" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S1-A1" targetRef="I1-S1-A2" id="I1-S1-A1-to-I1-S1-A2"/>
+        <endEvent id="I1-S1-end"/>
+        <sequenceFlow sourceRef="I1-S1-A2" targetRef="I1-S1-end" id="I1-S1-A2-to-I1-S1-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I1-Start" targetRef="I1-S1" id="I1-Start-to-I1-S1"/>
+      <subProcess id="I1-S2" name="Obtain-relevant-data-for-host">
+        <startEvent id="I1-S2-Start"/>
+        <userTask id="I1-S2-A1" name="Genome-sequence" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S2-Start" targetRef="I1-S2-A1" id="I1-S2-Start-to-I1-S2-A1"/>
+        <userTask id="I1-S2-A2" name="Genome-scale-metabolic-model--GEM-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S2-A1" targetRef="I1-S2-A2" id="I1-S2-A1-to-I1-S2-A2"/>
+        <userTask id="I1-S2-A3" name="Collect-relevant-available--bibliographic--experimental--data--candidate--sink--metabolites-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S2-A2" targetRef="I1-S2-A3" id="I1-S2-A2-to-I1-S2-A3"/>
+        <endEvent id="I1-S2-end"/>
+        <sequenceFlow sourceRef="I1-S2-A3" targetRef="I1-S2-end" id="I1-S2-A3-to-I1-S2-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I1-S1" targetRef="I1-S2" id="I1-S1-to-I1-S2"/>
+      <subProcess id="I1-S3" name="Physiological-constraints">
+        <startEvent id="I1-S3-Start"/>
+        <userTask id="I1-S3-A1" name="Oxygen-requirements" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S3-Start" targetRef="I1-S3-A1" id="I1-S3-Start-to-I1-S3-A1"/>
+        <userTask id="I1-S3-A2" name="Raw-material-requirements" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S3-A1" targetRef="I1-S3-A2" id="I1-S3-A1-to-I1-S3-A2"/>
+        <userTask id="I1-S3-A3" name="Estimate-product-toxicity-for-chassis" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S3-A2" targetRef="I1-S3-A3" id="I1-S3-A2-to-I1-S3-A3"/>
+        <endEvent id="I1-S3-end"/>
+        <sequenceFlow sourceRef="I1-S3-A3" targetRef="I1-S3-end" id="I1-S3-A3-to-I1-S3-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I1-S2" targetRef="I1-S3" id="I1-S2-to-I1-S3"/>
+      <subProcess id="I1-S4" name="Technoeconomic-constraints">
+        <startEvent id="I1-S4-Start"/>
+        <userTask id="I1-S4-A1" name="Estimate-market-value-of-product" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S4-Start" targetRef="I1-S4-A1" id="I1-S4-Start-to-I1-S4-A1"/>
+        <userTask id="I1-S4-A2" name="Intellectual-Property--IP--constraints" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S4-A1" targetRef="I1-S4-A2" id="I1-S4-A1-to-I1-S4-A2"/>
+        <userTask id="I1-S4-A3" name="DSP-considerations" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I1-S4-A2" targetRef="I1-S4-A3" id="I1-S4-A2-to-I1-S4-A3"/>
+        <endEvent id="I1-S4-end"/>
+        <sequenceFlow sourceRef="I1-S4-A3" targetRef="I1-S4-end" id="I1-S4-A3-to-I1-S4-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I1-S3" targetRef="I1-S4" id="I1-S3-to-I1-S4"/>
+      <endEvent id="I1-end"/>
+      <sequenceFlow sourceRef="I1-S4" targetRef="I1-end" id="I1-S4-to-I1-end"/>
+    </subProcess>
+    <sequenceFlow sourceRef="hierarchical-model-Start" targetRef="I1" id="hierarchical-model-Start-to-I1"/>
+    <subProcess id="I2" name="Design">
+      <startEvent id="I2-Start"/>
+      <subProcess id="I2-S1" name="Receive-input-from--select-host-and-products--step">
+        <startEvent id="I2-S1-Start"/>
+        <userTask id="I2-S1-A1" name="Receive-name-of-production-host" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S1-Start" targetRef="I2-S1-A1" id="I2-S1-Start-to-I2-S1-A1"/>
+        <userTask id="I2-S1-A2" name="Obtain-SBML-models-for-production-hosts" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S1-A1" targetRef="I2-S1-A2" id="I2-S1-A1-to-I2-S1-A2"/>
+        <userTask id="I2-S1-A3" name="Obtain-annotated-genomes-of-production-hosts" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S1-A2" targetRef="I2-S1-A3" id="I2-S1-A2-to-I2-S1-A3"/>
+        <userTask id="I2-S1-A4" name="Receive-name-of-product" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S1-A3" targetRef="I2-S1-A4" id="I2-S1-A3-to-I2-S1-A4"/>
+        <endEvent id="I2-S1-end"/>
+        <sequenceFlow sourceRef="I2-S1-A4" targetRef="I2-S1-end" id="I2-S1-A4-to-I2-S1-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-Start" targetRef="I2-S1" id="I2-Start-to-I2-S1"/>
+      <subProcess id="I2-S2" name="Receive-input-from--Upscale--Test-HighThroughput--Test-Bioreactor-and--build">
+        <startEvent id="I2-S2-Start"/>
+        <userTask id="I2-S2-A1" name="Physiological-constraints" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S2-Start" targetRef="I2-S2-A1" id="I2-S2-Start-to-I2-S2-A1"/>
+        <userTask id="I2-S2-A2" name="Process-constraints-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S2-A1" targetRef="I2-S2-A2" id="I2-S2-A1-to-I2-S2-A2"/>
+        <endEvent id="I2-S2-end"/>
+        <sequenceFlow sourceRef="I2-S2-A2" targetRef="I2-S2-end" id="I2-S2-A2-to-I2-S2-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S1" targetRef="I2-S2" id="I2-S1-to-I2-S2"/>
+      <subProcess id="I2-S3" name="Information-search">
+        <startEvent id="I2-S3-Start"/>
+        <userTask id="I2-S3-A1" name="Freedom-to-operate--IPR-considerations-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S3-Start" targetRef="I2-S3-A1" id="I2-S3-Start-to-I2-S3-A1"/>
+        <userTask id="I2-S3-A2" name="Known-pathways-in-literature" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S3-A1" targetRef="I2-S3-A2" id="I2-S3-A1-to-I2-S3-A2"/>
+        <userTask id="I2-S3-A3" name="Known-pathways-in-reaction-databases" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S3-A2" targetRef="I2-S3-A3" id="I2-S3-A2-to-I2-S3-A3"/>
+        <userTask id="I2-S3-A4" name="Patent-search" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S3-A3" targetRef="I2-S3-A4" id="I2-S3-A3-to-I2-S3-A4"/>
+        <endEvent id="I2-S3-end"/>
+        <sequenceFlow sourceRef="I2-S3-A4" targetRef="I2-S3-end" id="I2-S3-A4-to-I2-S3-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S2" targetRef="I2-S3" id="I2-S2-to-I2-S3"/>
+      <subProcess id="I2-S4" name="Computational-product-pathway-design">
+        <startEvent id="I2-S4-Start"/>
+        <userTask id="I2-S4-A1" name="Enumerate-pathway-options--Retropath---" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-Start" targetRef="I2-S4-A1" id="I2-S4-Start-to-I2-S4-A1"/>
+        <userTask id="I2-S4-A2" name="Screen-pathway-options-based-on-quality-criteria" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A1" targetRef="I2-S4-A2" id="I2-S4-A1-to-I2-S4-A2"/>
+        <userTask id="I2-S4-A3" name="Convert-reaction-rules-to-complete-reactions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A2" targetRef="I2-S4-A3" id="I2-S4-A2-to-I2-S4-A3"/>
+        <userTask id="I2-S4-A4" name="Score-pathways-without-chassis" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A3" targetRef="I2-S4-A4" id="I2-S4-A3-to-I2-S4-A4"/>
+        <userTask id="I2-S4-A5" name="Membrane-toxicity-of-intermediates" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A4" targetRef="I2-S4-A5" id="I2-S4-A4-to-I2-S4-A5"/>
+        <userTask id="I2-S4-A6" name="Thermodynamic-feasibility-verification" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A5" targetRef="I2-S4-A6" id="I2-S4-A5-to-I2-S4-A6"/>
+        <userTask id="I2-S4-A7" name="Optimized-Bottleneck-Energetics" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S4-A6" targetRef="I2-S4-A7" id="I2-S4-A6-to-I2-S4-A7"/>
+        <endEvent id="I2-S4-end"/>
+        <sequenceFlow sourceRef="I2-S4-A7" targetRef="I2-S4-end" id="I2-S4-A7-to-I2-S4-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S3" targetRef="I2-S4" id="I2-S3-to-I2-S4"/>
+      <subProcess id="I2-S5" name="Chassis-embedment">
+        <startEvent id="I2-S5-Start"/>
+        <userTask id="I2-S5-A1" name="Receive-input-from-product-pathway-design" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-Start" targetRef="I2-S5-A1" id="I2-S5-Start-to-I2-S5-A1"/>
+        <userTask id="I2-S5-A2" name="Map-metabolites-between-pathway-and-chassis" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A1" targetRef="I2-S5-A2" id="I2-S5-A1-to-I2-S5-A2"/>
+        <userTask id="I2-S5-A3" name="Add-production-pathway-to-chassis-SBML-in-silico" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A2" targetRef="I2-S5-A3" id="I2-S5-A2-to-I2-S5-A3"/>
+        <userTask id="I2-S5-A4" name="Fill-metabolic-gaps" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A3" targetRef="I2-S5-A4" id="I2-S5-A3-to-I2-S5-A4"/>
+        <userTask id="I2-S5-A5" name="Screen-potential-substrates-in-silico" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A4" targetRef="I2-S5-A5" id="I2-S5-A4-to-I2-S5-A5"/>
+        <userTask id="I2-S5-A6" name="Screen-growth-conditions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A5" targetRef="I2-S5-A6" id="I2-S5-A5-to-I2-S5-A6"/>
+        <userTask id="I2-S5-A7" name="Growth-product-coupling---e-g--OptKnock--RobustKnock--Minimal-Cut-Sets-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A6" targetRef="I2-S5-A7" id="I2-S5-A6-to-I2-S5-A7"/>
+        <userTask id="I2-S5-A8" name="Calculate-expected-yields" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A7" targetRef="I2-S5-A8" id="I2-S5-A7-to-I2-S5-A8"/>
+        <userTask id="I2-S5-A9" name="Estimate-productivities" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S5-A8" targetRef="I2-S5-A9" id="I2-S5-A8-to-I2-S5-A9"/>
+        <endEvent id="I2-S5-end"/>
+        <sequenceFlow sourceRef="I2-S5-A9" targetRef="I2-S5-end" id="I2-S5-A9-to-I2-S5-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S4" targetRef="I2-S5" id="I2-S4-to-I2-S5"/>
+      <subProcess id="I2-S6" name="Evaluate-and-choose-pathways">
+        <startEvent id="I2-S6-Start"/>
+        <userTask id="I2-S6-A1" name="Perform-evaluation" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S6-Start" targetRef="I2-S6-A1" id="I2-S6-Start-to-I2-S6-A1"/>
+        <endEvent id="I2-S6-end"/>
+        <sequenceFlow sourceRef="I2-S6-A1" targetRef="I2-S6-end" id="I2-S6-A1-to-I2-S6-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S5" targetRef="I2-S6" id="I2-S5-to-I2-S6"/>
+      <subProcess id="I2-S7" name="Genetic-design-for-chassis">
+        <startEvent id="I2-S7-Start"/>
+        <userTask id="I2-S7-A1" name="Check-for-native-enzymes-with-activity-for-heterologous-metabolites" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-Start" targetRef="I2-S7-A1" id="I2-S7-Start-to-I2-S7-A1"/>
+        <userTask id="I2-S7-A2" name="Genome-reannotation" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A1" targetRef="I2-S7-A2" id="I2-S7-A1-to-I2-S7-A2"/>
+        <userTask id="I2-S7-A3" name="Search-for-native-homologues-of-enzymes-acting-on-the-heterologous-metabolites" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A2" targetRef="I2-S7-A3" id="I2-S7-A2-to-I2-S7-A3"/>
+        <userTask id="I2-S7-A4" name="Additional-trait-design" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A3" targetRef="I2-S7-A4" id="I2-S7-A3-to-I2-S7-A4"/>
+        <userTask id="I2-S7-A5" name="Propose-desirable-traits" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A4" targetRef="I2-S7-A5" id="I2-S7-A4-to-I2-S7-A5"/>
+        <userTask id="I2-S7-A6" name="Bioprospecting-for-traits" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A5" targetRef="I2-S7-A6" id="I2-S7-A5-to-I2-S7-A6"/>
+        <userTask id="I2-S7-A7" name="Pathway-improvement-by-mutations--supporting-auxiliary-pathways--enzymes-cofactor-specificity--genetic-modifications" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A6" targetRef="I2-S7-A7" id="I2-S7-A6-to-I2-S7-A7"/>
+        <userTask id="I2-S7-A8" name="Select-promoter-types" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A7" targetRef="I2-S7-A8" id="I2-S7-A7-to-I2-S7-A8"/>
+        <userTask id="I2-S7-A9" name="Evaluate-and-choose-strains" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A8" targetRef="I2-S7-A9" id="I2-S7-A8-to-I2-S7-A9"/>
+        <userTask id="I2-S7-A10" name="Describe-genetic-constructs-in-SBOL-format" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S7-A9" targetRef="I2-S7-A10" id="I2-S7-A9-to-I2-S7-A10"/>
+        <endEvent id="I2-S7-end"/>
+        <sequenceFlow sourceRef="I2-S7-A10" targetRef="I2-S7-end" id="I2-S7-A10-to-I2-S7-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S6" targetRef="I2-S7" id="I2-S6-to-I2-S7"/>
+      <subProcess id="I2-S8" name="Store-information-of-design">
+        <startEvent id="I2-S8-Start"/>
+        <userTask id="I2-S8-A1" name="Store-the-list-of-enzyme-functions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S8-Start" targetRef="I2-S8-A1" id="I2-S8-Start-to-I2-S8-A1"/>
+        <userTask id="I2-S8-A2" name="Store-the-list-of-gene-additions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S8-A1" targetRef="I2-S8-A2" id="I2-S8-A1-to-I2-S8-A2"/>
+        <userTask id="I2-S8-A3" name="Store-the-list-of-gene-deletions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S8-A2" targetRef="I2-S8-A3" id="I2-S8-A2-to-I2-S8-A3"/>
+        <userTask id="I2-S8-A4" name="Store-the-list-of-genotypes" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S8-A3" targetRef="I2-S8-A4" id="I2-S8-A3-to-I2-S8-A4"/>
+        <userTask id="I2-S8-A5" name="Store-the-list-of-promoter-types" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S8-A4" targetRef="I2-S8-A5" id="I2-S8-A4-to-I2-S8-A5"/>
+        <endEvent id="I2-S8-end"/>
+        <sequenceFlow sourceRef="I2-S8-A5" targetRef="I2-S8-end" id="I2-S8-A5-to-I2-S8-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S7" targetRef="I2-S8" id="I2-S7-to-I2-S8"/>
+      <subProcess id="I2-S9" name="Select-and-or-design-enzyme">
+        <startEvent id="I2-S9-Start"/>
+        <userTask id="I2-S9-A1" name="Retrieve-the-list-of-enzyme-functions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-Start" targetRef="I2-S9-A1" id="I2-S9-Start-to-I2-S9-A1"/>
+        <userTask id="I2-S9-A2" name="Generate-candidate-sequences--Enzyme-search-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A1" targetRef="I2-S9-A2" id="I2-S9-A1-to-I2-S9-A2"/>
+        <userTask id="I2-S9-A3" name="Function-based-in-silico-screening-of-candidate-sequences" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A2" targetRef="I2-S9-A3" id="I2-S9-A2-to-I2-S9-A3"/>
+        <userTask id="I2-S9-A4" name="Choose-enzyme-sequences" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A3" targetRef="I2-S9-A4" id="I2-S9-A3-to-I2-S9-A4"/>
+        <userTask id="I2-S9-A5" name="Optimize-gene-sequences" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A4" targetRef="I2-S9-A5" id="I2-S9-A4-to-I2-S9-A5"/>
+        <userTask id="I2-S9-A6" name="Remove-mobile-regulatory-elements" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A5" targetRef="I2-S9-A6" id="I2-S9-A5-to-I2-S9-A6"/>
+        <userTask id="I2-S9-A7" name="Send-list-of-gene-additions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S9-A6" targetRef="I2-S9-A7" id="I2-S9-A6-to-I2-S9-A7"/>
+        <endEvent id="I2-S9-end"/>
+        <sequenceFlow sourceRef="I2-S9-A7" targetRef="I2-S9-end" id="I2-S9-A7-to-I2-S9-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S8" targetRef="I2-S9" id="I2-S8-to-I2-S9"/>
+      <subProcess id="I2-S10" name="Design-DNA-constructs-for-expression-host">
+        <startEvent id="I2-S10-Start"/>
+        <userTask id="I2-S10-A1" name="Freedom-to-operate-with-regards-to-the-tools--IPRConsiderations" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S10-Start" targetRef="I2-S10-A1" id="I2-S10-Start-to-I2-S10-A1"/>
+        <userTask id="I2-S10-A2" name="List-DNA-fragments-to-order" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S10-A1" targetRef="I2-S10-A2" id="I2-S10-A1-to-I2-S10-A2"/>
+        <userTask id="I2-S10-A3" name="Describe-genetic-constructs-in-SBOL-format" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S10-A2" targetRef="I2-S10-A3" id="I2-S10-A2-to-I2-S10-A3"/>
+        <endEvent id="I2-S10-end"/>
+        <sequenceFlow sourceRef="I2-S10-A3" targetRef="I2-S10-end" id="I2-S10-A3-to-I2-S10-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S9" targetRef="I2-S10" id="I2-S9-to-I2-S10"/>
+      <subProcess id="I2-S11" name="Sending-and-receiving-designs">
+        <startEvent id="I2-S11-Start"/>
+        <userTask id="I2-S11-A1" name="Send-strain-designs-to-Build" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-Start" targetRef="I2-S11-A1" id="I2-S11-Start-to-I2-S11-A1"/>
+        <userTask id="I2-S11-A2" name="Retrieve-the-list-of-gene-deletions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-A1" targetRef="I2-S11-A2" id="I2-S11-A1-to-I2-S11-A2"/>
+        <userTask id="I2-S11-A3" name="Retrieve-the-list-of-gene-additions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-A2" targetRef="I2-S11-A3" id="I2-S11-A2-to-I2-S11-A3"/>
+        <userTask id="I2-S11-A4" name="Retrieve-the-list-of-promoter-types" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-A3" targetRef="I2-S11-A4" id="I2-S11-A3-to-I2-S11-A4"/>
+        <userTask id="I2-S11-A5" name="Select-promoters" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-A4" targetRef="I2-S11-A5" id="I2-S11-A4-to-I2-S11-A5"/>
+        <userTask id="I2-S11-A6" name="Select-integration-sites-loci" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S11-A5" targetRef="I2-S11-A6" id="I2-S11-A5-to-I2-S11-A6"/>
+        <endEvent id="I2-S11-end"/>
+        <sequenceFlow sourceRef="I2-S11-A6" targetRef="I2-S11-end" id="I2-S11-A6-to-I2-S11-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S10" targetRef="I2-S11" id="I2-S10-to-I2-S11"/>
+      <subProcess id="I2-S12" name="Select-genome-editing-strategy">
+        <startEvent id="I2-S12-Start"/>
+        <userTask id="I2-S12-A1" name="CRISPR-Cas9" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-Start" targetRef="I2-S12-A1" id="I2-S12-Start-to-I2-S12-A1"/>
+        <userTask id="I2-S12-A2" name="MAGE--genome-engineering" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A1" targetRef="I2-S12-A2" id="I2-S12-A1-to-I2-S12-A2"/>
+        <userTask id="I2-S12-A3" name="Select-vectors-plasmids-DNA-constructs" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A2" targetRef="I2-S12-A3" id="I2-S12-A2-to-I2-S12-A3"/>
+        <userTask id="I2-S12-A4" name="Select-vector-assembly-strategy" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A3" targetRef="I2-S12-A4" id="I2-S12-A3-to-I2-S12-A4"/>
+        <userTask id="I2-S12-A5" name="SEVA-METABRICK--Moclo--Gibson-pathway-engineering--Wageningen" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A4" targetRef="I2-S12-A5" id="I2-S12-A4-to-I2-S12-A5"/>
+        <userTask id="I2-S12-A6" name="Vector--promoter-selection--plasmids--locus-of-integration--restriction-sites--etc--cloning-strategy-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A5" targetRef="I2-S12-A6" id="I2-S12-A5-to-I2-S12-A6"/>
+        <userTask id="I2-S12-A7" name="Select-primers-for-vector-assembly" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A6" targetRef="I2-S12-A7" id="I2-S12-A6-to-I2-S12-A7"/>
+        <userTask id="I2-S12-A8" name="Combinatorial-assembly-strategy" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S12-A7" targetRef="I2-S12-A8" id="I2-S12-A7-to-I2-S12-A8"/>
+        <endEvent id="I2-S12-end"/>
+        <sequenceFlow sourceRef="I2-S12-A8" targetRef="I2-S12-end" id="I2-S12-A8-to-I2-S12-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S11" targetRef="I2-S12" id="I2-S11-to-I2-S12"/>
+      <subProcess id="I2-S13" name="Design-growth-medium-and-cultivation-conditions">
+        <startEvent id="I2-S13-Start"/>
+        <userTask id="I2-S13-A1" name="Receive-list-of-genotypes" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S13-Start" targetRef="I2-S13-A1" id="I2-S13-Start-to-I2-S13-A1"/>
+        <userTask id="I2-S13-A2" name="Design-experiments-to-test-phenotype" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S13-A1" targetRef="I2-S13-A2" id="I2-S13-A1-to-I2-S13-A2"/>
+        <userTask id="I2-S13-A3" name="Send-list-of-growth-media-and-cultivation-conditions-to-Test" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S13-A2" targetRef="I2-S13-A3" id="I2-S13-A2-to-I2-S13-A3"/>
+        <userTask id="I2-S13-A4" name="Send-predicted-clone-behavior-to-Test" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S13-A3" targetRef="I2-S13-A4" id="I2-S13-A3-to-I2-S13-A4"/>
+        <endEvent id="I2-S13-end"/>
+        <sequenceFlow sourceRef="I2-S13-A4" targetRef="I2-S13-end" id="I2-S13-A4-to-I2-S13-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S12" targetRef="I2-S13" id="I2-S12-to-I2-S13"/>
+      <subProcess id="I2-S14" name="Criteria-for-successful-outcome-of--Design--Criteria-to-be-available-as-check-list-table-">
+        <startEvent id="I2-S14-Start"/>
+        <userTask id="I2-S14-A1" name="Calculation-of-theoretical-yields-productivities-carried-out" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-Start" targetRef="I2-S14-A1" id="I2-S14-Start-to-I2-S14-A1"/>
+        <userTask id="I2-S14-A2" name="Appropriate-MTAs-and-other-agreements-in-place" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A1" targetRef="I2-S14-A2" id="I2-S14-A1-to-I2-S14-A2"/>
+        <userTask id="I2-S14-A3" name="Consideration-to-the-specificity-of-the-process--for-the-product---selectivity--side-products-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A2" targetRef="I2-S14-A3" id="I2-S14-A2-to-I2-S14-A3"/>
+        <userTask id="I2-S14-A4" name="Design-suits-the-chassis--and-its-genotype-" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A3" targetRef="I2-S14-A4" id="I2-S14-A3-to-I2-S14-A4"/>
+        <userTask id="I2-S14-A5" name="Design-expected-to-be-stable-in-vivo" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A4" targetRef="I2-S14-A5" id="I2-S14-A4-to-I2-S14-A5"/>
+        <userTask id="I2-S14-A6" name="Build-designs-made--Output" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A5" targetRef="I2-S14-A6" id="I2-S14-A5-to-I2-S14-A6"/>
+        <userTask id="I2-S14-A7" name="Test-conditions-designed" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A6" targetRef="I2-S14-A7" id="I2-S14-A6-to-I2-S14-A7"/>
+        <userTask id="I2-S14-A8" name="Upscale-conditions-considered--UpscaleConsideration" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A7" targetRef="I2-S14-A8" id="I2-S14-A7-to-I2-S14-A8"/>
+        <userTask id="I2-S14-A9" name="Test-conditions-considered-and-predicted-strain-behavior-expected-to-be-measureable-in--Test-HighThroughput-conditions" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A8" targetRef="I2-S14-A9" id="I2-S14-A8-to-I2-S14-A9"/>
+        <userTask id="I2-S14-A10" name="Predicted-effect-of-modifications-on-flux-ratios-expected-to-be-measurable-in-Test-conditions--e-g--product-and-or-precursor--" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S14-A9" targetRef="I2-S14-A10" id="I2-S14-A9-to-I2-S14-A10"/>
+        <endEvent id="I2-S14-end"/>
+        <sequenceFlow sourceRef="I2-S14-A10" targetRef="I2-S14-end" id="I2-S14-A10-to-I2-S14-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S13" targetRef="I2-S14" id="I2-S13-to-I2-S14"/>
+      <subProcess id="I2-S15" name="Output-to-Build">
+        <startEvent id="I2-S15-Start"/>
+        <userTask id="I2-S15-A1" name="Send-output-to-build" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I2-S15-Start" targetRef="I2-S15-A1" id="I2-S15-Start-to-I2-S15-A1"/>
+        <endEvent id="I2-S15-end"/>
+        <sequenceFlow sourceRef="I2-S15-A1" targetRef="I2-S15-end" id="I2-S15-A1-to-I2-S15-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I2-S14" targetRef="I2-S15" id="I2-S14-to-I2-S15"/>
+      <endEvent id="I2-end"/>
+      <sequenceFlow sourceRef="I2-S15" targetRef="I2-end" id="I2-S15-to-I2-end"/>
+    </subProcess>
+    <sequenceFlow sourceRef="I1" targetRef="I2" id="I1-to-I2"/>
+    <subProcess id="I3" name="Build">
+      <startEvent id="I3-Start"/>
+      <subProcess id="I3-S1" name="Receive-input-from-Design--strain-and-vector-designs">
+        <startEvent id="I3-S1-Start"/>
+        <userTask id="I3-S1-A1" name="Receive-high-level-step-by-step-instructions-for-construction-of-DNA-constructs" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S1-Start" targetRef="I3-S1-A1" id="I3-S1-Start-to-I3-S1-A1"/>
+        <userTask id="I3-S1-A2" name="Receive-plasmid-maps-in-SBOL-format" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S1-A1" targetRef="I3-S1-A2" id="I3-S1-A1-to-I3-S1-A2"/>
+        <userTask id="I3-S1-A3" name="Receive-list-of-oligos-in-FASTA-format-to-be-ordered-for-DNA-fragment-constrution" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S1-A2" targetRef="I3-S1-A3" id="I3-S1-A2-to-I3-S1-A3"/>
+        <userTask id="I3-S1-A4" name="Receive-high-level-step-by-step-instructions-for-strain-construction" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S1-A3" targetRef="I3-S1-A4" id="I3-S1-A3-to-I3-S1-A4"/>
+        <userTask id="I3-S1-A5" name="Receive-list-of-primers-in-FASTA-format-for-verification-and-the-SOP-of-the-verification-method" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S1-A4" targetRef="I3-S1-A5" id="I3-S1-A4-to-I3-S1-A5"/>
+        <endEvent id="I3-S1-end"/>
+        <sequenceFlow sourceRef="I3-S1-A5" targetRef="I3-S1-end" id="I3-S1-A5-to-I3-S1-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I3-Start" targetRef="I3-S1" id="I3-Start-to-I3-S1"/>
+      <subProcess id="I3-S2" name="Receive--Input-from--Test-HighThroughput--Test-Bioreactor--Upscale">
+        <startEvent id="I3-S2-Start"/>
+        <endEvent id="I3-S2-end"/>
+        <sequenceFlow sourceRef="I3-S2-Start" targetRef="I3-S2-end" id="I3-S2-Start-to-I3-S2-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I3-S1" targetRef="I3-S2" id="I3-S1-to-I3-S2"/>
+      <subProcess id="I3-S3" name="Creation-of-DNA-constructs">
+        <startEvent id="I3-S3-Start"/>
+        <userTask id="I3-S3-A1" name="Order-synthesize-genetic-material" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-Start" targetRef="I3-S3-A1" id="I3-S3-Start-to-I3-S3-A1"/>
+        <userTask id="I3-S3-A2" name="Receive-genetic-material" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A1" targetRef="I3-S3-A2" id="I3-S3-A1-to-I3-S3-A2"/>
+        <userTask id="I3-S3-A3" name="Transformation-of-the-genetic-material-into-the-cloning-host-organism" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A2" targetRef="I3-S3-A3" id="I3-S3-A2-to-I3-S3-A3"/>
+        <userTask id="I3-S3-A4" name="Prepare-transformation-competent-cells-of-the-cloning-host-organism" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A3" targetRef="I3-S3-A4" id="I3-S3-A3-to-I3-S3-A4"/>
+        <userTask id="I3-S3-A5" name="Prepare-genetic-material-for-transformation" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A4" targetRef="I3-S3-A5" id="I3-S3-A4-to-I3-S3-A5"/>
+        <userTask id="I3-S3-A6" name="Prepare-liquid-cultivation-medium-for-transformation" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A5" targetRef="I3-S3-A6" id="I3-S3-A5-to-I3-S3-A6"/>
+        <userTask id="I3-S3-A7" name="Prepare-solid-cultivation-medium-for-transformation" flowable:assignee="admin" flowable:formFieldValidation="true"/>
+        <sequenceFlow sourceRef="I3-S3-A6" targetRef="I3-S3-A7" id="I3-S3-A6-to-I3-S3-A7"/>
+        <endEvent id="I3-S3-end"/>
+        <sequenceFlow sourceRef="I3-S3-A7" targetRef="I3-S3-end" id="I3-S3-A7-to-I3-S3-end"/>
+      </subProcess>
+      <sequenceFlow sourceRef="I3-S2" targetRef="I3-S3" id="I3-S2-to-I3-S3"/>
+      <endEvent id="I3-end"/>
+      <sequenceFlow sourceRef="I3-S3" targetRef="I3-end" id="I3-S3-to-I3-end"/>
+    </subProcess>
+    <sequenceFlow sourceRef="I2" targetRef="I3" id="I2-to-I3"/>
+    <endEvent id="hierarchical-model-End"/>
+    <sequenceFlow sourceRef="I3" targetRef="hierarchical-model-End" id="I3-to-hierarchical-model-End"/>
+  </process>
+</definitions>
